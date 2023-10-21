@@ -1,5 +1,5 @@
 const enum Default {
-  MAX_LENGTH = 140;
+  MAX_LENGTH = 140,
 }
 
 interface WithLength {
