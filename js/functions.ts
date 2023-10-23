@@ -29,4 +29,17 @@ const getInteger = (input: string | number) => {
   return parseInt(result, 10);
 };
 
-export {isStringLengthValidate, isPalindrome, getInteger};
+const parseTime = (timeString: string) => {
+  const [hours, minutes] = timeString.split(':').map(Number);
+  return hours * 60 + minutes;
+};
+
+const addMinutes = (time: number, minutes: number) => time + minutes;
+
+const isMeetingWithinWorkingHours = (startTime: string, endTime: string, meetingStart: string, meetingDuration: number) => {
+  const [workingStart, workingEnd, meetingStartTime] = [startTime, endTime, meetingStart].map(parseTime);
+  const meetingEndTime = addMinutes(meetingStartTime, meetingDuration);
+  return meetingStartTime >= workingStart && meetingEndTime <= workingEnd;
+};
+
+export {isStringLengthValidate, isPalindrome, getInteger, isMeetingWithinWorkingHours};
