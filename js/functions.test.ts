@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {getInteger, isPalindrome, isStringLengthValidate} from './functions';
+import {getInteger, isPalindrome, isStringLengthValidate, isMeetingWithinWorkingHours } from './functions';
 
 describe('Функция для проверки длины строки.', () => {
   const TEST_STRING = 'проверяемая строка';
@@ -31,4 +31,18 @@ describe ('Функция для извлечения цифр из строки
   it('Число вернет число', () => expect(getInteger(2023)).toBe(2023));
   it('Дробное число', () => expect(getInteger(1.5)).toBe(15));
   it('Отрицательное число', () => expect(getInteger(-1)).toBe(1));
+});
+
+const TEST_CASES = [
+  { values: ['08:00', '17:30', '14:00', 90], result: true },
+  { values: ['8:00', '10:0', '8:00', 120], result: true },
+  { values: ['08:00', '14:30', '14:00', 90], result: false },
+  { values: ['14:00', '17:30', '08:0', 90], result: false },
+  { values: ['8:00', '17:30', '08:00', 900], result: false },
+];
+
+describe('isOnWorkHours: функция на проверку превысит ли встреча рабочие часы', () => {
+  it.each(TEST_CASES)('With arguments $values', ({ values, result }) =>
+    expect(isMeetingWithinWorkingHours(...(values as [string, string, string, number]))).toStrictEqual(result)
+  );
 });
