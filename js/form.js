@@ -25,6 +25,7 @@ const onCloseModal = () => {
   closeModal();
   resetEffect();
   form.reset();
+  resetValidation();
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
