@@ -4,7 +4,6 @@ import { resetEffect } from './slider-effects.js';
 const form = document.querySelector('.img-upload__form');
 const input = form.querySelector('.img-upload__input');
 const overlay = form.querySelector('.img-upload__overlay');
-const cancelUpload = form.querySelector('.img-upload__cancel');
 
 
 const openModal = () => {
@@ -25,6 +24,7 @@ const onFileInputChange = () => {
 const onCloseModal = () => {
   closeModal();
   resetEffect();
+  form.reset();
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
@@ -44,4 +44,4 @@ form.addEventListener('submit', async (evt) => {
 });
 
 input.addEventListener('change', onFileInputChange);
-cancelUpload.addEventListener('click', onCloseModal);
+form.addEventListener('reset', onCloseModal);
