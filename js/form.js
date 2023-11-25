@@ -5,26 +5,21 @@ const form = document.querySelector('.img-upload__form');
 const input = form.querySelector('.img-upload__input');
 const overlay = form.querySelector('.img-upload__overlay');
 
-
-const openModal = () => {
-  overlay.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-};
-
-const closeModal = () => {
-  overlay.classList.add('hidden');
-  document.body.classList.remove('modal-open');
+const toggleClasses = (willBeOpened = true) => {
+  overlay.classList.toggle('hidden', !willBeOpened);
+  document.body.classList.toggle('modal-open', willBeOpened);
 };
 
 const onFileInputChange = () => {
-  openModal();
+  toggleClasses();
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-const onCloseModal = () => {
-  closeModal();
+const closeModal = () => form.reset();
+
+const onResetForm = () => {
+  toggleClasses(false);
   resetEffect();
-  form.reset();
   resetValidation();
   document.removeEventListener('keydown', onDocumentKeydown);
 };
@@ -34,15 +29,17 @@ function onDocumentKeydown (evt) {
 
   if (evt.key === 'Escape' && !isInputFocused) {
     evt.preventDefault();
-    onCloseModal();
+    onResetForm();
   }
 }
 
 form.addEventListener('submit', async (evt) => {
   evt.preventDefault();
-  isValid();
-  resetValidation();
+
+  if (isValid()){
+    closeModal();
+  }
 });
 
 input.addEventListener('change', onFileInputChange);
-form.addEventListener('reset', onCloseModal);
+form.addEventListener('reset', onResetForm);

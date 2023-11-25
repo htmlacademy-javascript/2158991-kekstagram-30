@@ -1,12 +1,12 @@
 import Pristine from 'pristinejs';
 
-const hashtags = document.querySelector('.text__hashtags');
-const description = document.querySelector('.text__description');
-const form = document.querySelector('.img-upload__form');
-
 const REG_EX = /^#[a-zа-яё0-9]{1,19}$/;
 const MAX_COUNT_TAGS = 5;
 const MAX_LENGTH = 140;
+
+const hashtags = document.querySelector('.text__hashtags');
+const description = document.querySelector('.text__description');
+const form = document.querySelector('.img-upload__form');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -51,7 +51,7 @@ pristine.addValidator(
   'как минимум один хэш-тег невалиден'
 );
 
-const isValid = pristine.validate();
+const isValid = () => pristine.validate();
 const resetValidation = () => pristine.reset();
 
 export {isValid, resetValidation, form};
