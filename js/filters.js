@@ -8,40 +8,43 @@ const ACTIVE_CLASS = 'img-filters__button--active';
 const imgFilter = document.querySelector('.img-filters');
 const filterForm = imgFilter.querySelector('.img-filters__form');
 
-const getFilters = (pictures) => ({
-  default: pictures,
-  random: pictures.sort(() => Math.random() - 0.5).slice(0, MAX_RANDOM_FILTER),
-  discussed: pictures.sort((firstElement, secondElement) => (firstElement.comments.length - secondElement.comments.length)),
-});
+let allPictures = [];
+
+const filterByName = {
+  default: () => allPictures,
+  random: () => [...allPictures].sort(() => Math.random() - 0.5).slice(0, MAX_RANDOM_FILTER),
+  discussed: () => [...allPictures].sort((firstPicture, secondPicture) => (secondPicture.comments.length - firstPicture.comments.length)),
+};
 
 const clearContainer = () => {
   const pictures = document.querySelectorAll('.picture');
   pictures.forEach((item) => item.remove());
 };
 
-const reRender = debounce((filter, data) => {
+const reRender = debounce((filter) => {
   clearContainer();
-  renderPictures(getFilters(data)[filter]);
+  renderPictures(filterByName[filter]());
 }, RERENDER_DELAY);
 
-const showFilter = (data) => {
+filterForm.addEventListener('click', (event) => {
+  const target = event.target;
+  const activeButton = document.querySelector('.img-filters__button--active');
+
+  if (!target.classList.contains('img-filters__button') || target === activeButton) {
+    return;
+  }
+  activeButton.classList.remove(ACTIVE_CLASS);
+  target.classList.add(ACTIVE_CLASS);
+
+  if (target.classList.contains('img-filters__button')) {
+    const filterType = target.id.replace('filter-', '');
+    reRender(filterType);
+  }
+});
+
+const showFilter = (pictures) => {
   imgFilter.classList.remove('img-filters--inactive');
-
-  filterForm.addEventListener('click', (event) => {
-    const target = event.target;
-    const activeButton = document.querySelector('.img-filters__button--active');
-
-    if (!target.classList.contains('img-filters__button') || target === activeButton) {
-      return;
-    }
-    activeButton.classList.remove(ACTIVE_CLASS);
-    target.classList.add(ACTIVE_CLASS);
-
-    if (target.classList.contains('img-filters__button')) {
-      const filterType = target.id.replace('filter-', '');
-      reRender(filterType, data);
-    }
-  });
+  allPictures = pictures;
 };
 
 export { showFilter };
