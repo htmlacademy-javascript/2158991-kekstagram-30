@@ -36,10 +36,9 @@ filterForm.addEventListener('click', (event) => {
   activeButton.classList.remove(ACTIVE_CLASS);
   target.classList.add(ACTIVE_CLASS);
 
-  if (target.classList.contains('img-filters__button')) {
-    const filterType = target.id.replace('filter-', '');
-    reRender(filterType);
-  }
+  const filterType = target.id.replace('filter-', '');
+  reRender(filterType);
+
 });
 
 const showFilter = (pictures) => {

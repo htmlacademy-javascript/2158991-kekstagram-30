@@ -2,6 +2,7 @@ import { isValid, resetValidation } from './validate.js';
 import { resetEffect } from './slider-effects.js';
 import { sendPictures } from './api.js';
 import {showSuccessMessage, showErrorMessage} from './message-handler.js';
+import {onKeyDownEscape} from './util';
 import './scale-picture.js';
 import './new-picture.js';
 
@@ -39,7 +40,7 @@ function onDocumentKeydown (evt) {
   const isError = document.querySelector('.error');
   const isInputFocused = document.activeElement === form.querySelector('.text__hashtags') || document.activeElement === form.querySelector('.text__description');
 
-  if (evt.key === 'Escape' && !isInputFocused && !isError) {
+  if (onKeyDownEscape(evt) && !isInputFocused && !isError) {
     evt.preventDefault();
     onCloseImageButtonClick();
     onResetForm();
