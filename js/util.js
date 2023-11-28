@@ -62,4 +62,6 @@ function throttle (callback, delayBetweenFrames) {
   };
 }
 
-export {createIdGenerator, getRandomInteger, createRandomIdFromRangeGenerator, getArrayRandomElements, getStringFromArray, debounce, throttle};
+const onKeyDownEscape = (evt) => evt.key === 'Escape';
+
+export {createIdGenerator, getRandomInteger, createRandomIdFromRangeGenerator, getArrayRandomElements, getStringFromArray, debounce, throttle, onKeyDownEscape};

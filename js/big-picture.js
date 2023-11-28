@@ -1,4 +1,6 @@
 import {renderComments} from './render-comments';
+import {onKeyDownEscape} from './util';
+
 
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
@@ -25,7 +27,7 @@ const onClosePictureButton = () => {
 };
 
 function onDocumentKeydown (evt) {
-  if (evt.key === 'Escape') {
+  if (onKeyDownEscape(evt)) {
     evt.preventDefault();
     hidePicture();
   }
