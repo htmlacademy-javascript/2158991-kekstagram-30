@@ -23,17 +23,25 @@ const onFileInputChange = () => {
 const closeModal = () => form.reset();
 
 const onResetForm = () => {
-  toggleClasses(false);
   resetEffect();
+  closeModal();
+  toggleClasses(false);
   resetValidation();
-  document.removeEventListener('keydown', onDocumentKeydown);
+  onCloseImageButtonClick();
 };
 
+function onCloseImageButtonClick() {
+  input.value = '';
+  document.removeEventListener('keydown', onDocumentKeydown);
+}
+
 function onDocumentKeydown (evt) {
+  const isError = document.querySelector('.error');
   const isInputFocused = document.activeElement === form.querySelector('.text__hashtags') || document.activeElement === form.querySelector('.text__description');
 
-  if (evt.key === 'Escape' && !isInputFocused) {
+  if (evt.key === 'Escape' && !isInputFocused && !isError) {
     evt.preventDefault();
+    onCloseImageButtonClick();
     onResetForm();
   }
 }
@@ -43,7 +51,6 @@ const toggleSubmitButton = (isDisabled) => {
   submitButton.textContent = isDisabled ? 'Отправляю...' : 'Опубликовать';
 };
 
-
 form.addEventListener('submit', async (evt) => {
   evt.preventDefault();
 
@@ -52,8 +59,8 @@ form.addEventListener('submit', async (evt) => {
     try {
       toggleSubmitButton(true);
       await sendPictures(new FormData(form));
-      closeModal();
       showSuccessMessage();
+      onResetForm();
     } catch {
       showErrorMessage();
     } finally {

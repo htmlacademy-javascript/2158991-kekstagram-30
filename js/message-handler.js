@@ -1,9 +1,9 @@
 const successMessage = document.querySelector('#success').content.querySelector('.success');
 const errorMessage = document.querySelector('#error').content.querySelector('.error');
 
-
 function hideMessage () {
   const element = document.querySelector('.error') || document.querySelector('.success');
+
   element.remove();
   document.removeEventListener('keydown', onDocumentKeydown);
   document.body.removeEventListener('click', onBodyClick);
